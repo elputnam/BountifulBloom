@@ -27,6 +27,14 @@ let w, h;
 // Order of tiles
 let board = [];
 
+//CCapture
+// var capture = false; // default is to not capture frames, can be changed with button in browser
+var capturer = new CCapture({
+  format:'webm', 
+  workersPath: 'js/',
+  framerate: 7
+});
+
 function preload(){
   base = loadImage('assets/BountifulBloom_base.png');
   blender = loadImage('assets/BountifulBloom_blender.png');
@@ -73,6 +81,7 @@ function setup() {
 }
 
 function draw() {
+  if (frameCount==1) capturer.start();
   background(random(360), 100, 100);
   //tileCount = random(20);
 
@@ -168,6 +177,11 @@ function draw() {
       alp2 = 100;
     }
   }
+  capturer.capture(document.getElementById('defaultCanvas0'));  
+    if (frameCount==2100){
+      save_record();
+    }
+    print(frameCount);
   
   
 }
@@ -218,3 +232,8 @@ class Tile {
     this.img = img;    
   }
 }
+
+function save_record() {
+  capturer.save();
+}
+
